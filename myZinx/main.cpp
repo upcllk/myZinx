@@ -3,6 +3,7 @@
 #include "StdinChannel.h"
 #include "StdoutChannel.h"
 #include "FifoChannel.h"
+#include "ProcessFunc.h"
 
 int main()
 {
@@ -10,7 +11,12 @@ int main()
 
     StdinChannel in_channel;
     StdoutChannel out_channel;
-    in_channel.SetOutChannel(&out_channel);
+    ProcessFunc pf;
+
+    // in_channel -----> pf -----> out_channel
+    //           DataProc  DataSend
+    in_channel.SetOutProcFunc(&pf);
+    pf.SetOutChannel(&out_channel);
 
     kernel.AddChannel(&out_channel);
     kernel.AddChannel(&in_channel);
