@@ -10,11 +10,6 @@ StdoutChannel::~StdoutChannel()
 {
 }
 
-std::string StdoutChannel::ReadFd()
-{
-	return std::string();
-}
-
 int StdoutChannel::GetFd()
 {
 	return STDOUT_FILENO;

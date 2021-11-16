@@ -11,13 +11,6 @@ StdinChannel::~StdinChannel()
 {
 }
 
-std::string StdinChannel::ReadFd()
-{
-	std::string ret;
-	getline(std::cin, ret);
-	return ret;
-}
-
 int StdinChannel::GetFd()
 {
 	return STDIN_FILENO;
