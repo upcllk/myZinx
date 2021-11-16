@@ -75,6 +75,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="FifoChannel.cpp" />
     <ClCompile Include="IChannel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StdinChannel.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="ZinxKernel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FifoChannel.h" />
     <ClInclude Include="IChannel.h" />
     <ClInclude Include="StdinChannel.h" />
     <ClInclude Include="StdoutChannel.h" />

@@ -18,3 +18,12 @@ int StdoutChannel::GetFd()
 void StdoutChannel::DataProcess(std::string _input)
 {
 }
+
+bool StdoutChannel::Init()
+{
+	return true;
+}
+
+void StdoutChannel::Fini()
+{
+}
