@@ -75,12 +75,16 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="IChannel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StdinChannel.cpp" />
+    <ClCompile Include="StdoutChannel.cpp" />
     <ClCompile Include="ZinxKernel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IChannel.h" />
     <ClInclude Include="StdinChannel.h" />
+    <ClInclude Include="StdoutChannel.h" />
     <ClInclude Include="ZinxKernel.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
