@@ -81,6 +81,7 @@
     <ClCompile Include="ProcessFunc.cpp" />
     <ClCompile Include="StdinChannel.cpp" />
     <ClCompile Include="StdoutChannel.cpp" />
+    <ClCompile Include="AZinxHandler.cpp" />
     <ClCompile Include="ZinxKernel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="ProcessFunc.h" />
     <ClInclude Include="StdinChannel.h" />
     <ClInclude Include="StdoutChannel.h" />
+    <ClInclude Include="AZinxHandler.h" />
     <ClInclude Include="ZinxKernel.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
