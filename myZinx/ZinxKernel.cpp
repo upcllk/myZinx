@@ -74,13 +74,16 @@ void ZinxKernel::ModChannelDelOut(IChannel* _pChannel)
 
 void ZinxKernel::AddChannel(IChannel* _pChannel)
 {
-	struct epoll_event stEvent;
-	stEvent.events = EPOLLIN;
-	stEvent.data.ptr = _pChannel;
-	epoll_ctl(m_epollFd, EPOLL_CTL_ADD, _pChannel->GetFd(), &stEvent);
+	if (_pChannel->Init() == true) {
+		struct epoll_event stEvent;
+		stEvent.events = EPOLLIN;
+		stEvent.data.ptr = _pChannel;
+		epoll_ctl(m_epollFd, EPOLL_CTL_ADD, _pChannel->GetFd(), &stEvent);
+	}
 }
 
 void ZinxKernel::DelChannel(IChannel* _pChannel)
 {
 	epoll_ctl(m_epollFd, EPOLL_CTL_DEL, _pChannel->GetFd(), NULL);
+	_pChannel->Fini();
 }

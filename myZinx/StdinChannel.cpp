@@ -21,3 +21,12 @@ void StdinChannel::DataProcess(std::string _input)
 	// 将数据回显到标准输出 -> 需要调用标准输出通道对象的 SendOut 函数
 	m_outChannel->DataSendOut(_input);
 }
+
+bool StdinChannel::Init()
+{
+	return true;
+}
+
+void StdinChannel::Fini()
+{
+}

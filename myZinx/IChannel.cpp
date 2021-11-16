@@ -45,5 +45,10 @@ std::string IChannel::ReadFd()
 
 void IChannel::WriteFd(std::string _output)
 {
-	write(this->GetFd(), _output.c_str(), _output.size());
+	// 这样写有隐患， 如果 _output 有 \0， c_str 后会提前结束
+	// write(this->GetFd(), _output.c_str(), _output.size());
+	char* pout = (char*)malloc(_output.size());
+	_output.copy(pout, _output.size(), 0);
+	write(this->GetFd(), pout, _output.size());
+	free(pout);
 }

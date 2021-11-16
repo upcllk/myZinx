@@ -24,5 +24,9 @@ public:
 	StdoutChannel* GetOutChannel() {
 		return m_outChannel;
 	}
+
+	// Í¨¹ý IChannel ¼Ì³Ð
+	virtual bool Init() override;
+	virtual void Fini() override;
 };
 
