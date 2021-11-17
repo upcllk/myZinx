@@ -26,6 +26,12 @@ public:
 	void ModChannelAddOut(IChannel* _pChannel);
 	// 删除输出的监听方向
 	void ModChannelDelOut(IChannel* _pChannel);
+
+	// 将数据流方向的修改封装，不必手动修改后在调用 Handle,
+	// 除了输出通道好像也没有其他的要求 out 方向所以只抽象到通道类的话也不是不可以 ? 
+	// 就是 GetNextHandler 返回值要转换一下类型
+	void ZinxSendOut(std::string _output, AZinxHandler* _pNextHandler);
+	// void ZinxSendOut(std::string _output, IChannel* _pChannel);
 };
 
 

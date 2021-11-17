@@ -1,21 +1,22 @@
 #pragma once
 #include <string>
+#include "AZinxHandler.h"
 #include "IChannel.h"
 
-class ProcessFunc
+class ProcessFunc :
+	public AZinxHandler
 {
 public:
 	ProcessFunc();
 	virtual ~ProcessFunc();
-	void SetOutChannel(IChannel* _pChannel) {
-		m_outChannel = _pChannel;
-	}
-	void DataProcess(std::string _input);
 
 
 private:
-	IChannel* m_outChannel = nullptr;
-	void UpperOut(std::string _input);
-	void OrigOut(std::string _input);
+	std::string UpperOut(std::string _input);
+	std::string OrigOut(std::string _input);
+
+	// Í¨¹ý AZinxHandler ¼Ì³Ð
+	virtual ZinxMessage* InternelHandle(ZinxMessage* _inputMsg) override;
+
 };
 
