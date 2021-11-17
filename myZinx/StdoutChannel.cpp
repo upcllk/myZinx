@@ -1,5 +1,4 @@
 #include "StdoutChannel.h"
-#include <iostream>
 #include <unistd.h>
 
 StdoutChannel::StdoutChannel()
@@ -15,10 +14,6 @@ int StdoutChannel::GetFd()
 	return STDOUT_FILENO;
 }
 
-void StdoutChannel::DataProcess(std::string _input)
-{
-}
-
 bool StdoutChannel::Init()
 {
 	return true;
@@ -27,3 +22,8 @@ bool StdoutChannel::Init()
 void StdoutChannel::Fini()
 {
 }
+
+void StdoutChannel::DataProcess(std::string _input)
+{
+}
+

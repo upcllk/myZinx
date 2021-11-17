@@ -41,9 +41,9 @@ void ZinxKernel::Run()
 				// 同时标准输出通道类的 DataProcess 实现也为空
 				// 1 读出数据
 				IChannel* pChannel = static_cast<IChannel*>(astEvents[i].data.ptr);
-				std::string content = pChannel->ReadFd();
 				// 2 处理数据
-				pChannel->DataProcess(content);
+				SysIODirMsg ioDir(SysIODirMsg::IO_IN);
+				pChannel->Handle(&ioDir);
 			}
 			if (astEvents[i].events & EPOLLOUT) {
 				// 需要处理外部输出的数据
@@ -70,6 +70,13 @@ void ZinxKernel::ModChannelDelOut(IChannel* _pChannel)
 	stEvent.events = EPOLLIN;
 	stEvent.data.ptr = _pChannel;
 	epoll_ctl(m_epollFd, EPOLL_CTL_MOD, _pChannel->GetFd(), &stEvent);
+}
+
+void ZinxKernel::ZinxSendOut(std::string _output, AZinxHandler* _pNextHandler)
+{
+	SysIODirMsg ioDic(SysIODirMsg::IO_OUT);
+	ByteMsg byte(_output, ioDic);
+	_pNextHandler->Handle(&byte);
 }
 
 void ZinxKernel::AddChannel(IChannel* _pChannel)
