@@ -27,3 +27,8 @@ void StdoutChannel::DataProcess(std::string _input)
 {
 }
 
+AZinxHandler* StdoutChannel::GetInputNextStage()
+{
+	return nullptr;
+}
+

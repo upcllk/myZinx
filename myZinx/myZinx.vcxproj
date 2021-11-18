@@ -82,6 +82,7 @@
     <ClCompile Include="StdinChannel.cpp" />
     <ClCompile Include="StdoutChannel.cpp" />
     <ClCompile Include="AZinxHandler.cpp" />
+    <ClCompile Include="TCPChannel.cpp" />
     <ClCompile Include="ZinxKernel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +92,7 @@
     <ClInclude Include="StdinChannel.h" />
     <ClInclude Include="StdoutChannel.h" />
     <ClInclude Include="AZinxHandler.h" />
+    <ClInclude Include="TCPChannel.h" />
     <ClInclude Include="ZinxKernel.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
