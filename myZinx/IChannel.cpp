@@ -25,6 +25,16 @@ void IChannel::FlushOut()
 	m_buffer.clear();
 }
 
+void IChannel::SetNextStage(AZinxHandler* _nextHandler)
+{
+	SetNextHandler(_nextHandler);
+}
+
+AZinxHandler* IChannel::GetNextStage()
+{
+	return GetNextHandler();
+}  
+
 ZinxMessage* IChannel::InternelHandle(ZinxMessage* _inputMsg)
 {
 	ZinxMessage* pRet = nullptr;
