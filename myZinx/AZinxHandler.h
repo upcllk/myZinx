@@ -16,6 +16,7 @@ public:
 	virtual ~AZinxHandler();
 
 	void Handle(ZinxMessage* _inputMsg);
+
 	void SetNextHandler(AZinxHandler* _pNextHandler) {
 		m_nextHandler = _pNextHandler;
 	}

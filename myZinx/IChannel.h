@@ -43,17 +43,22 @@ public:
 	// 万一以后自定义操作可以在 InternelHandle 里先调用 DataProcess，? 具体操作调用者可以指定
 	virtual void DataProcess(std::string _input) = 0;
 
-	std::string ReadFd();
+	// 这边 ReadFd 和 WriteFd 写为虚函数的原因是对于 TCP 连接的 fd，读写操作需要进行重写，，比如 accept 啥的
+	virtual std::string ReadFd();
 	// 不直接调用 WriteFd， 只是存到缓存 m_buffer 并修改 epoll, 等到 epoll 返回再发, 通用函数
 	void DataSendOut(std::string _output);
 	// 向外刷出缓存数据 内部调用 WriteFd 这个才是真正的输出函数
 	void FlushOut();
 
+	void SetNextStage(AZinxHandler* _nextHandler);
+	AZinxHandler* GetNextStage();
+
 private:
 	std::string m_buffer;
 	// 通过 AZinxHandler 继承
+	// IChannel 通道类只负责输入输出，他的工作很单一
 	virtual ZinxMessage* InternelHandle(ZinxMessage* _inputMsg) override;
 
-	void WriteFd(std::string _output);
+	virtual void WriteFd(std::string _output);
 };
 

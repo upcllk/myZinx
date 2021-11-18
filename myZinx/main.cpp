@@ -117,7 +117,8 @@ int main()
 
     // in_channel -----> pf -----> out_channel
     //           DataProc  DataSend
-    in_channel.SetNextHandler(&pf);
+    in_channel.SetNextStage(&pf);
+    // 这里由于还没有继承 IProtocol ，先这样吧
     pf.SetNextHandler(&out_channel);
 
     kernel.AddChannel(&out_channel);
@@ -127,7 +128,7 @@ int main()
     FifoChannel fifo_out_channel("output", false);
     NothingTodo nt;
 
-    fifo_in_channel.SetNextHandler(&nt);
+    fifo_in_channel.SetNextStage(&nt);
     nt.SetNextHandler(&fifo_out_channel);
     // fifo_in_channel.SetOutChannel(&fifo_out_channel);
 
