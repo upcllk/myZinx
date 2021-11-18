@@ -7,6 +7,7 @@
 #include "FifoChannel.h"
 #include "ProcessFunc.h"
 #include "AZinxHandler.h"
+#include "TCPChannel.h"
 
 using namespace std;
 
@@ -105,10 +106,77 @@ class NothingTodo :
     }
 };
 
+/*class Echo :public AZinxHandler {
+	// 通过 AZinxHandler 继承
+	virtual IZinxMsg * InternelHandle(IZinxMsg & _oInput) override
+	{
+		GET_REF2DATA(BytesMsg, input, _oInput);
+		auto channel = ZinxKernel::Zinx_GetChannel_ByInfo(input.szInfo);
+		ZinxKernel::Zinx_SendOut(input.szData, *channel);
+		return nullptr;
+	}
+	virtual AZinxHandler * GetNextHandler(IZinxMsg & _oNextMsg) override
+	{
+		return nullptr;
+	}
+} echo;*/
+
+class Echo :
+    public AZinxHandler
+{
+public:
+    // 通过 AZinxHandler 继承
+    virtual ZinxMessage* InternelHandle(ZinxMessage* _inputMsg) override
+    {
+        ByteMsg* pRet = nullptr;
+        ByteMsg* pMsg = dynamic_cast<ByteMsg*>(_inputMsg);
+        if (pMsg != nullptr) {
+            SysIODirMsg ioDir(SysIODirMsg::IO_OUT);
+            // 这边构造函数每次都要传一个对象好烦，能不能改一下传一个枚举变量
+            pRet = new ByteMsg(pMsg->m_content, ioDir);
+            cout << "echo recv \"" << pMsg->m_content << "\"" << endl;
+        }
+        else {
+            cout << "pMsg is nullptr \n";
+        }
+        return pRet;
+    }
+} echo;
+
+class MyTCPData :
+    public TCPDataChannel
+{
+public:
+    MyTCPData(int _fd) :TCPDataChannel(_fd)
+    {
+        SetNextHandler(&echo);
+    }
+    // 通过 TCPDataChannel 继承
+    virtual AZinxHandler* GetInputNextStage() override
+    {
+        // 写在这里也没用啊，没人调 .. 暂时写在构造函数里吧
+        // SetNextHandler(&echo);
+        return nullptr;
+    }
+};
+
+class myFact :
+    public TCPDataChannelFactory
+{
+public:
+    // 通过 TCPDataChannelFactory 继承
+    virtual TCPDataChannel* CreateChannel(int _cfd) override
+    {
+        return new MyTCPData(_cfd);
+    }
+
+};
+
 int main()
 {
-    // ChainTest();
 
+
+    // ChainTest();
     ZinxKernel& kernel = ZinxKernel::GetInstance();
 
     StdinChannel in_channel;
@@ -123,6 +191,7 @@ int main()
 
     kernel.AddChannel(&out_channel);
     kernel.AddChannel(&in_channel);
+    /*
 
     FifoChannel fifo_in_channel("input", true);
     FifoChannel fifo_out_channel("output", false);
@@ -136,5 +205,18 @@ int main()
     kernel.AddChannel(&fifo_out_channel);
 
     kernel.Run();
+    */
+
+    // 有一个不知道算不算问题的问题， sockettool 发过来的数据默认是没有换行的，之前写过的简单回显因为键盘有敲回车所以有换行
+    // 后面框架套上服务器程序再说吧
+    kernel.AddChannel(new TCPListenChannel(23333, new myFact()));
+
+    echo.SetNextHandler(&out_channel);
+    kernel.AddChannel(&out_channel);
+
+
+    kernel.Run();
+
+
     return 0;
 }

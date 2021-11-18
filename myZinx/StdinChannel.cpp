@@ -20,6 +20,11 @@ void StdinChannel::DataProcess(std::string _input)
 {
 }
 
+AZinxHandler* StdinChannel::GetInputNextStage()
+{
+	return nullptr;
+}
+
 bool StdinChannel::Init()
 {
 	return true;

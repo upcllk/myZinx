@@ -17,5 +17,8 @@ public:
 
     // 通过 IChannel 继承
     virtual void DataProcess(std::string _input) override;
+
+    // 通过 IChannel 继承
+    virtual AZinxHandler* GetInputNextStage() override;
 };
 

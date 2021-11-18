@@ -50,8 +50,16 @@ public:
 	// 向外刷出缓存数据 内部调用 WriteFd 这个才是真正的输出函数
 	void FlushOut();
 
-	void SetNextStage(AZinxHandler* _nextHandler);
-	AZinxHandler* GetNextStage();
+	virtual void SetNextStage(AZinxHandler* _nextHandler);
+	virtual AZinxHandler* GetNextStage();
+
+	/*
+	* 设置这个函数的目的是, 在我的代码中虽然跟着视频使用了工厂方法模式，但是视频里的没有什么 SetNextStage 和 GetNextStage
+	* 只有下面这个纯虚函数，而在 TCPDataChannel 类中也没有实现，同时我们没法在框架运行时 lfd 检测到连接后创建一个
+	* 对象，再去手动调用 SetNextStage， 所以就有了这个纯虚函数
+	* 有了这个函数之后由于 TCPDataChannel 类中也没有实现，所以调用者必须继承该类重写该函数
+	*/
+	virtual AZinxHandler* GetInputNextStage() = 0;
 
 private:
 	std::string m_buffer;
